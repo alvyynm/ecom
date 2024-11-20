@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 
 from cart.cart import Cart
 from .forms import OrderCreateForm
@@ -30,12 +30,10 @@ def order_create(request):
 
             # launch asychronous created_order task
             order_created.delay(order.id)
-
-            return render(
-                request,
-                'orders/order/created.html',
-                {'order': order}
-            )
+            # add order id to session
+            request.session['order_id'] = order.id
+            # redirect to payment page
+            return redirect('payments:process')
     else:
         form = OrderCreateForm()
 
