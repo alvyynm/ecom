@@ -137,6 +137,7 @@ CART_SESSION_ID = 'cart'
 
 # write emails to console
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ADMIN_EMAIL = config('SHOP_ADMIN_EMAIL')
 
 # Stripe account credentials
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')

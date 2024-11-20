@@ -1,10 +1,10 @@
+from django.conf import settings
 from celery import shared_task
 from django.core.mail import send_mail
-from decouple import config
 
 from .models import Order
 
-ADMIN_EMAIL = config('SHOP_ADMIN_EMAIL')
+ADMIN_EMAIL = settings.ADMIN_EMAIL
 
 
 @shared_task
