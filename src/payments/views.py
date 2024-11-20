@@ -13,7 +13,7 @@ stripe.api_version = settings.STRIPE_API_VERSION
 
 
 def payment_process(request):
-    order_id = request.GET.get('order_id')
+    order_id = request.session.get('order_id')
     order = get_object_or_404(Order, id=order_id)
 
     if request.method == 'POST':
