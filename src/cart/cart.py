@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 
 from shop.models import Product
+from coupons.models import Coupon
 
 
 class Cart:
@@ -22,6 +23,8 @@ class Cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
 
         self.cart = cart
+        # store the currently applied coupon to the cart instance
+        self.coupon_id = self.session.get('coupon_id')
 
     def __iter__(self):
         """
@@ -88,3 +91,26 @@ class Cart:
         """Clears the cart"""
         del self.session[settings.CART_SESSION_ID]
         self.save()
+
+    @property
+    def coupon(self):
+        """Returns the coupon object if the cart instance has a coupon_id attribute"""
+        if self.coupon_id:
+            try:
+                return Coupon.objects.get(id=self.coupon_id)
+            except Coupon.DoesNotExist:
+                pass
+        return None
+
+    def get_discount(self):
+        """If the cart has a coupon, calculate the amount to be deducted
+          and return it"""
+        if self.coupon:
+            return (self.coupon.discount / Decimal(100)) * self.get_total_price()
+        return Decimal(0)
+
+    def get_total_price_after_discount(self):
+        """Return the total amount to be paid after deducting coupon"""
+        discount = self.get_discount()
+        current_total = self.get_total_price()
+        return current_total - discount

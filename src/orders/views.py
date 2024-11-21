@@ -19,9 +19,14 @@ def order_create(request):
         form = OrderCreateForm(request.POST)
 
         if form.is_valid():
-            # create a new order in the db
-            order = form.save()
+            # create a new order instance and don't save it
+            order = form.save(commit=False)
 
+            if cart.coupon:
+                order.coupon = cart.coupon
+                order.discount = cart.coupon.discount
+            # save the order
+            order.save()
             for item in cart:
                 # create a new order item for each cart item
                 OrderItem.objects.create(

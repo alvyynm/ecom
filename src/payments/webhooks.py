@@ -5,6 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from orders.models import Order
 from .tasks import payment_completed
+from shop.models import Product
+from shop.recommender import Recommender
 
 
 @csrf_exempt
@@ -42,6 +44,13 @@ def stripe_webhook(request):
             # store stripe payment id
             order.stripe_id = session.payment_intent
             order.save()
+
+            # save the items bought for product recommendations
+            product_ids = order.items.values_list('product_id')
+            products = Product.objects.filter(id__in=product_ids)
+            r = Recommender()
+            r.products_bought(products)
+
             # send user email notification about payment success with invoice
             payment_completed.delay(order.id)
 
