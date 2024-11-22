@@ -3,6 +3,8 @@ from .base import *
 
 DEBUG = False
 
+SECRET_KEY = config('DJANGO_SECRET_KEY')
+
 ALLOWED_HOSTS = ['*']
 DATABASES = {
     'default': {
@@ -11,6 +13,6 @@ DATABASES = {
         'USER': config('POSTGRES_USER'),
         'PASSWORD': config('POSTGRES_PASSWORD'),
         'HOST': 'db',
-        'PORT': 5432
+        'PORT': config('POSTGRES_PORT')
     }
 }
