@@ -13,6 +13,7 @@ services:
     depends_on:
       - db
       - redis
+      - rabbitmq
 
   db:
     image: postgres:latest
@@ -37,3 +38,24 @@ services:
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
       - REDIS_DB=${REDIS_DB}
+
+  rabbitmq:
+    image: rabbitmq:4.0.3-management-alpine
+    container_name: rabbitmq_server
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+
+  celery_worker:
+    build:
+      context: .
+    command: celery -A project worker --loglevel=info
+    working_dir: /app/src # sets the working directory containing manage.py
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - rabbitmq
