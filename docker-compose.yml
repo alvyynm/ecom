@@ -12,6 +12,7 @@ services:
       - .env # load the environment variables from .env
     depends_on:
       - db
+      - redis
 
   db:
     image: postgres:latest
@@ -24,3 +25,15 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  redis:
+    image: redis:7.2.4
+    restart: always
+    volumes:
+      - ./data/redis:/data
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DB=${REDIS_DB}
