@@ -1,0 +1,24 @@
+# upstream for uWSGI
+upstream django_app {
+server unix:/app/src/uwsgi_app.sock;
+}
+server {
+    listen 80;
+    server_name www.neevolabs.com neevolabs.com;
+    error_log stderr warn;
+    access_log /dev/stdout main;
+
+    location / {
+        include /etc/nginx/uwsgi_params;
+        uwsgi_pass django_app;
+    }
+
+    location /static/ {
+        alias /app/src/static/;
+    }
+
+    location /media/ {
+        alias /app/src/media/;
+    }
+
+}
