@@ -17,6 +17,7 @@ RUN apt-get update -qq && apt-get install -y \
     libglib2.0-0 \
     shared-mime-info \
     fonts-liberation \
+    libpcre3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 
