@@ -157,3 +157,6 @@ REDIS_DB = config('REDIS_DB')
 CELERY_BROKER_URL = config('CELERY_BROKER_URL')
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# Redirect to home URL after login (Default redirects to /accounts/profile/)
+LOGIN_REDIRECT_URL = '/'
