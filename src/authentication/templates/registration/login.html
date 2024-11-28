@@ -2,9 +2,7 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <form class="max-w-sm mx-auto"
-          action="{% url 'authentication:login' %}"
-          method="post">
+    <form class="max-w-sm mx-auto" action="{% url 'login' %}" method="post">
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
         <div class="mb-5">
@@ -26,7 +24,7 @@
         <div class="flex items-start mb-5">
             <div class="flex items-center h-5">
                 <p class="text-sm font-medium text-gray-900 dark:text-gray-300">
-                    Already have an account? <a href='{% url 'authentication:register' %}'
+                    Already have an account? <a href='{% url 'register' %}'
     class="text-blue-600 hover:underline dark:text-blue-500">Login</a>
                 </p>
             </div>

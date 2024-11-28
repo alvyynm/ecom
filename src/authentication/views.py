@@ -14,7 +14,7 @@ def register(request):
             form.save()
 
             messages.success(request, "Signup successful. Please login.")
-            return redirect('authentication:login')
+            return redirect('login')
         else:
             messages.error(request, "An error occurred while signing you up.")
     else:
