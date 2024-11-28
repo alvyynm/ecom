@@ -6,6 +6,7 @@
           action="{% url 'authentication:login' %}"
           method="post">
         {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
         <div class="mb-5">
             <label for="email"
                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
