@@ -4,6 +4,8 @@ from django.contrib import messages
 
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect('shop:product_list')
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
 
