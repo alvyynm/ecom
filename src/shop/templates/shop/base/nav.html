@@ -25,8 +25,20 @@
                  id="user-dropdown">
                 {% if user.is_authenticated %}
                     <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                        <span class="block text-sm text-gray-900 dark:text-white">
+                            {% if user.first_name and user.last_name %}
+                                {{ user.first_name }} {{ user.last_name }}
+                            {% else %}
+                                No name
+                            {% endif %}
+                        </span>
+                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">
+                            {% if user.email %}
+                                {{ user.email }}
+                            {% else %}
+                                no email
+                            {% endif %}
+                        </span>
                     </div>
                 {% endif %}
                 <ul class="py-2" aria-labelledby="user-menu-button">
