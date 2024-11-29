@@ -42,3 +42,12 @@ def update_user_details(request):
                   'authentication/user_edit.html',
                   {'user_form': user_form,
                    'profile_form': profile_form})
+
+
+@login_required
+def user_account_overview(request):
+    """Displays the user's account details"""
+    user_data = request.user
+    return render(request, 'authentication/user_account_overview.html', {
+        'user_data': user_data
+    })
