@@ -25,6 +25,9 @@ def order_create(request):
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
+            # if the user is logged in, assign the user to the order
+            if request.user.is_authenticated:
+                order.user = request.user
             # save the order
             order.save()
             for item in cart:
