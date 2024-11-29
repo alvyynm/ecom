@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model
 
+from .models import Profile
+
 
 class LoginForm(forms.Form):
     """Login form"""
@@ -36,3 +38,11 @@ class UserEditForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name']
+
+
+class ProfileEditForm(forms.ModelForm):
+    """Form for editing a user's profile information"""
+    class Meta:
+        model = Profile
+        fields = ['gender', 'phone', 'date_of_birth',
+                  'home_address', 'delivery_address']
