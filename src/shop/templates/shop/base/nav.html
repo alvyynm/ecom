@@ -44,8 +44,12 @@
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     {% if user.is_authenticated %}
                         <li>
-                            <a href="#"
-                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                            <a href="{% url 'user_account_overview' %}"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">My Account</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'orders:order_list' %}"
+                               class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Orders</a>
                         </li>
                         <li>
                             <a href="#"
