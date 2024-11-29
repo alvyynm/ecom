@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 
-from .forms import CustomRegisterForm
+from .forms import CustomRegisterForm, UserEditForm
 
 
 def register(request):
@@ -21,3 +21,15 @@ def register(request):
         form = CustomRegisterForm()
     return render(request, "registration/register.html",
                   {'form': form})
+
+
+def update_user_details(request):
+    """Edit user details"""
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+    else:
+        form = UserEditForm(instance=request.user)
+    return render(request, 'authentication/user_edit.html', {'form': form})
