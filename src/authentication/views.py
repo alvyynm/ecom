@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 from .forms import CustomRegisterForm, UserEditForm, ProfileEditForm
 
@@ -23,6 +24,7 @@ def register(request):
                   {'form': form})
 
 
+@login_required
 def update_user_details(request):
     """Edit user details"""
     if request.method == 'POST':
