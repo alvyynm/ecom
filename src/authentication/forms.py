@@ -39,6 +39,9 @@ class UserEditForm(forms.ModelForm):
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name']
 
+    # make the email field mandatory
+    email = forms.EmailField(required=True)
+
 
 class ProfileEditForm(forms.ModelForm):
     """Form for editing a user's profile information"""
