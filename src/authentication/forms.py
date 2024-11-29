@@ -42,6 +42,14 @@ class UserEditForm(forms.ModelForm):
     # make the email field mandatory
     email = forms.EmailField(required=True)
 
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        query = User.objects.filter(email=email).exclude(id=self.instance.id)
+
+        if query.exists():
+            raise forms.ValidationError("Invalid email address")
+        return email
+
 
 class ProfileEditForm(forms.ModelForm):
     """Form for editing a user's profile information"""
