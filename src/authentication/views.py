@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import CustomRegisterForm, UserEditForm, ProfileEditForm
+from .models import Profile
 
 
 def register(request):
@@ -48,6 +49,9 @@ def update_user_details(request):
 def user_account_overview(request):
     """Displays the user's account details"""
     user_data = request.user
-    return render(request, 'authentication/user_account_overview.html', {
-        'user_data': user_data
-    })
+    profile_data = Profile.objects.get_or_create(user_data)
+    return render(request, 'authentication/user_account_overview.html',
+                  {
+                      'user_data': user_data,
+                      'profile_data': profile_data
+                  })
