@@ -21,3 +21,10 @@ class CustomRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'first_name', 'last_name',
                   'email', 'password1', 'password2']
+
+    def clean_email(self):
+        """Validate email for uniqueness"""
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("Invalid email address")
+        return email
