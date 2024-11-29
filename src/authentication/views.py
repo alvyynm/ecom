@@ -49,7 +49,7 @@ def update_user_details(request):
 def user_account_overview(request):
     """Displays the user's account details"""
     user_data = request.user
-    profile_data = Profile.objects.get_or_create(user_data)
+    profile_data = user_data.profile
     return render(request, 'authentication/user_account_overview.html',
                   {
                       'user_data': user_data,
