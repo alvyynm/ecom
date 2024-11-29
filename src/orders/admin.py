@@ -48,6 +48,7 @@ class OrderItemInline(admin.TabularInline):
 class OrderAdmin(admin.ModelAdmin):
     list_display = [
         'id',
+        'user',
         'first_name',
         'last_name',
         'email',
@@ -62,6 +63,7 @@ class OrderAdmin(admin.ModelAdmin):
         'order_pdf',
     ]
     list_filter = ['paid', 'created', 'updated']
+    raw_id_fields = ['user']
     inlines = [OrderItemInline]
     actions = [export_to_csv]
 
