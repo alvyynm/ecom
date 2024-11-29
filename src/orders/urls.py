@@ -12,4 +12,5 @@ urlpatterns = [
          views.admin_order_pdf,
          name='admin_order_pdf'
          ),
+    path('', views.order_list, name='order_list'),
 ]

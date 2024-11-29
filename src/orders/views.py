@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.staticfiles import finders
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
 
 from cart.cart import Cart
 from .forms import OrderCreateForm
@@ -75,3 +76,13 @@ def admin_order_pdf(request, order_id):
         stylesheets=[weasyprint.CSS(finders.find('css/pdf.css'))],
     )
     return response
+
+
+@login_required
+def order_list(request):
+    """Displays the user's order list"""
+    user = request.user
+
+    orders = user.orders.all()
+
+    return render(request, 'orders/order/list.html', {'orders': orders})
