@@ -2,10 +2,11 @@
 {% load static %}
 {% block title %}Login{% endblock %}
 {% block content %}
-    <form class="max-w-sm mx-auto mt-5"
+    <form class="max-w-sm mx-auto py-8"
           action="{% url 'register' %}"
           novalidate
           method="post">
+        <h2 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Create an account</h2>
         {% for field in form %}
             {% include 'shop/includes/field.html' %}
         {% endfor %}
