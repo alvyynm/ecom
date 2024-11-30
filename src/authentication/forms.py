@@ -40,7 +40,17 @@ class UserEditForm(forms.ModelForm):
         fields = ['username', 'email', 'first_name', 'last_name']
 
     # make the email field mandatory
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(required=True, widget=forms.EmailInput())
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add these classes to all form fields
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            })
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -57,3 +67,11 @@ class ProfileEditForm(forms.ModelForm):
         model = Profile
         fields = ['gender', 'phone', 'date_of_birth',
                   'home_address', 'delivery_address']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Add these classes to all form fields
+        for field in self.fields.values():
+            field.widget.attrs.update({
+                'class': 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+            })
