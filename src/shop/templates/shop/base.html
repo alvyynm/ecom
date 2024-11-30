@@ -13,21 +13,6 @@
     </head>
     <body class="bg-white py-2 antialiased dark:bg-gray-900 md:py-4">
         {% include './base/nav.html' %}
-        <div id="subheader">
-            <div class="cart">
-                {% with total_items=cart|length %}
-                    {% if total_items > 0 %}
-                        Your cart:
-                        <a href="{% url "cart:cart_detail" %}">
-                            {{ total_items }} item{{ total_items|pluralize }},
-                            ${{ cart.get_total_price }}
-                        </a>
-                    {% else %}
-                        Your cart is empty.
-                    {% endif %}
-                {% endwith %}
-            </div>
-        </div>
         <!-- Display messages -->
         {% if messages %}
             <div class="flex flex-col justify-center items-center">
