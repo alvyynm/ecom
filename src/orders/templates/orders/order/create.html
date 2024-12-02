@@ -21,7 +21,9 @@
         <p>Total: ${{ cart.get_total_price_after_discount|floatformat:2 }}</p>
     </div>
     <form method="post" class="order-form">
-        {{ form.as_p }}
+        {% for field in form %}
+            {% include 'shop/includes/field.html' %}
+        {% endfor %}
         <p>
             <input type="submit" value="Place order">
         </p>
