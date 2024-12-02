@@ -21,6 +21,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    canceled = models.BooleanField(default=False)
     stripe_id = models.CharField(max_length=250, blank=True)
     coupon = models.ForeignKey(
         Coupon,

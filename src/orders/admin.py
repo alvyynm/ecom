@@ -56,6 +56,7 @@ class OrderAdmin(admin.ModelAdmin):
         'postal_code',
         'city',
         'paid',
+        'canceled',
         'order_payment',
         'created',
         'updated',
