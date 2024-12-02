@@ -1,6 +1,10 @@
 {% extends "shop/base.html" %}
 {% block title %}Payment successful{% endblock %}
 {% block content %}
-    <h1>Your payment was successful</h1>
-    <p>Your payment has been processed successfully.</p>
+    <section class="h-80 flex gap-5 flex-col justify-center items-center">
+        <h1 class="text-xl text-center font-semibold text-gray-900 dark:text-white">Your payment was successful</h1>
+        <p class="text-center text-gray-900 dark:text-white">
+            Your payment has been processed successfully. We'll send you a confirmation email soon ;)
+        </p>
+    </section>
 {% endblock %}

@@ -2,11 +2,17 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.forms import ValidationError
 
 from coupons.models import Coupon
 
 
 class Order(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.SET_NULL,
+                             null=True,
+                             blank=True,
+                             related_name='orders')
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField()
@@ -16,6 +22,7 @@ class Order(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     paid = models.BooleanField(default=False)
+    canceled = models.BooleanField(default=False)
     stripe_id = models.CharField(max_length=250, blank=True)
     coupon = models.ForeignKey(
         Coupon,
@@ -62,6 +69,14 @@ class Order(models.Model):
         else:
             path = '/'
         return f'https://dashboard.stripe.com{path}payments/{self.stripe_id}'
+
+    def cancel(self):
+        """Cancels an unpaid order."""
+        if self.paid:
+            raise ValidationError("Paid orders cannot be canceled")
+        if not self.canceled:
+            self.canceled = True
+            self.save()
 
 
 class OrderItem(models.Model):

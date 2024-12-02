@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from django.contrib.staticfiles import finders
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
+from django.contrib import messages
 
 from cart.cart import Cart
 from .forms import OrderCreateForm
@@ -25,6 +28,9 @@ def order_create(request):
             if cart.coupon:
                 order.coupon = cart.coupon
                 order.discount = cart.coupon.discount
+            # if the user is logged in, assign the user to the order
+            if request.user.is_authenticated:
+                order.user = request.user
             # save the order
             order.save()
             for item in cart:
@@ -72,3 +78,28 @@ def admin_order_pdf(request, order_id):
         stylesheets=[weasyprint.CSS(finders.find('css/pdf.css'))],
     )
     return response
+
+
+@login_required
+def order_list(request):
+    """Displays the user's order list"""
+    user = request.user
+
+    orders = user.orders.all()
+
+    return render(request, 'orders/order/list.html', {'orders': orders})
+
+
+@login_required
+@require_POST
+def order_cancel(request, order_id):
+    """Cancel an un-paid order"""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.canceled:
+        messages.warning(request, "Order has already been canceled")
+    else:
+        order.cancel()
+        messages.success(request, "Order canceled successfully")
+
+    return redirect('orders:order_list')
