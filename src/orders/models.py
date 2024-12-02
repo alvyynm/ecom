@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.forms import ValidationError
 
 from coupons.models import Coupon
 
@@ -68,6 +69,14 @@ class Order(models.Model):
         else:
             path = '/'
         return f'https://dashboard.stripe.com{path}payments/{self.stripe_id}'
+
+    def cancel(self):
+        """Cancels an unpaid order."""
+        if self.paid:
+            raise ValidationError("Paid orders cannot be canceled")
+        if not self.canceled:
+            self.canceled = True
+            self.save()
 
 
 class OrderItem(models.Model):
