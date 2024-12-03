@@ -90,5 +90,5 @@ def user_onboarding(request):
     else:
         profile_form = ProfileEditForm(instance=request.user.profile)
 
-    return render(request, 'authentication/profile_details_fill.html',
+    return render(request, 'authentication/onboarding.html',
                   {'profile_form': profile_form})
