@@ -10,6 +10,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    profile_complete = models.BooleanField(default=False)
     phone = models.PositiveIntegerField(null=True, blank=True)
     gender = models.CharField(max_length=6, choices=Gender.choices)
     date_of_birth = models.DateField(null=True, blank=True)
