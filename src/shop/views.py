@@ -56,3 +56,16 @@ def gift_ideas(request):
         'gifts_for_him': gifts_for_him,
         'gifts_under_50': gifts_under_50
     })
+
+
+def todays_deals(request):
+    """View for displaying Today's Deals"""
+    todays_deals_query = Tag.objects.get(slug='todays-deals')
+    under_50_query = Tag.objects.get(slug='under-50')
+    deals_under_50 = under_50_query.products.filter(available=True)
+    todays_deals = todays_deals_query.products.filter(available=True)
+
+    return render(request, 'shop/product/deals.html', {
+        'deals': todays_deals,
+        'under_50': deals_under_50
+    })
