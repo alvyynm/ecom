@@ -153,7 +153,9 @@
                         </div>
                         <div class="pt-6">
                             <div class="mb-4 flex items-center justify-between gap-4">
-                                <span class="me-2 rounded bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-300"> Up to 35% off </span>
+                                {% if product.discount_percentage > 0 %}
+                                    <span class="me-2 rounded bg-[#cc0a3a] px-2.5 py-0.5 text-xs font-medium text-white">{{ product.discount_percentage|floatformat:0 }}% off</span>
+                                {% endif %}
                                 <div class="flex items-center justify-end gap-1">
                                     <button type="button"
                                             data-tooltip-target="tooltip-quick-look"
