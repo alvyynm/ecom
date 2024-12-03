@@ -38,7 +38,9 @@ def update_user_details(request):
             profile_form.save()
 
             # mark profile as completed
-            request.user.profile.profile_complete = True
+            user_profile = request.user.profile
+            user_profile.profile_complete = True
+            user_profile.save()
             messages.success(request, "Profile complete. Happy shopping!")
 
             return redirect('user_account_overview')
