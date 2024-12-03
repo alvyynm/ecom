@@ -42,8 +42,17 @@ def product_detail(request, id, slug):
 
 def gift_ideas(request):
     gift_query = Tag.objects.get(name='gift ideas')
+    for_her_query = Tag.objects.get(name='For Her')
+    for_him_query = Tag.objects.get(name='For Him')
+    under_50_query = Tag.objects.get(name='Under 50')
     gifts = gift_query.products.filter(available=True)
+    gifts_for_her = for_her_query.products.filter(available=True)
+    gifts_for_him = for_him_query.products.filter(available=True)
+    gifts_under_50 = under_50_query.products.filter(available=True)
 
     return render(request, 'shop/product/gift_ideas.html', {
-        'gifts': gifts
+        'gifts': gifts,
+        'gifts_for_her': gifts_for_her,
+        'gifts_for_him': gifts_for_him,
+        'gifts_under_50': gifts_under_50
     })
