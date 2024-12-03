@@ -36,6 +36,16 @@ def update_user_details(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+
+            # mark profile as completed
+            request.user.profile.profile_complete = True
+            messages.success(request, "Profile complete. Happy shopping!")
+
+            return redirect('user_account_overview')
+        else:
+            messages.error(
+                request, "There's an issue with your profile details, fix and try again.")
+
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)
