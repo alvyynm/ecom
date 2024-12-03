@@ -57,3 +57,26 @@ def user_account_overview(request):
                       'profile_data': profile_data,
                       'orders': orders
                   })
+
+
+def user_onboarding(request):
+    """Onboarding page to allow the user to add more details to the profile"""
+    if request.method == 'POST':
+        profile_form = ProfileEditForm(
+            request.POST, instance=request.user.profile)
+        user_profile = request.user.profile
+        if profile_form.is_valid():
+            profile_form.save()
+            user_profile.profile_complete = True
+            user_profile.save()
+            messages.success(request, "Profile complete. Happy shopping!")
+            return redirect('shop:product_list')
+        else:
+            messages.error(
+                request, "There's an issue with your profile details, fix and try again.")
+
+    else:
+        profile_form = ProfileEditForm(instance=request.user.profile)
+
+    return render(request, 'authentication/profile_details_fill.html',
+                  {'profile_form': profile_form})
