@@ -21,12 +21,20 @@ class Category(models.Model):
         return reverse('shop:product_list_by_category', args=[self.slug])
 
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     category = models.ForeignKey(
         Category,
         related_name='products',
         on_delete=models.CASCADE
     )
+    tags = models.ManyToManyField(Tag, related_name='products', blank=True)
     name = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200)
     image = models.ImageField(
