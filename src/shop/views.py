@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import Category, Product
+from .models import Category, Product, Tag
 from cart.forms import CartAddProductForm
 from .recommender import Recommender
 
@@ -38,3 +38,12 @@ def product_detail(request, id, slug):
     return render(request, 'shop/product/detail.html',
                   {'product': product, 'cart_product_form': cart_product_form,
                    'recommended_products': recommended_products})
+
+
+def gift_ideas(request):
+    gift_query = Tag.objects.get(name='gift ideas')
+    gifts = gift_query.products.filter(available=True)
+
+    return render(request, 'shop/product/gift_ideas.html', {
+        'gifts': gifts
+    })
