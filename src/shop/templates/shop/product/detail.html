@@ -11,8 +11,7 @@
                 </div>
                 <div class="mt-6 sm:mt-8 lg:mt-0">
                     <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ product.name }}</h1>
-                    <a href="{{ product.category.get_absolute_url }}"
-                       class="text-gray-900 dark:text-white">{{ product.category }}</a>
+                    <a href="{{ product.category.get_absolute_url }}" class="text-[#6b62ff]">{{ product.category }}</a>
                     <div class="mt-4 sm:items-center sm:gap-4 sm:flex">
                         <p class="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white">${{ product.price }}</p>
                         <div class="flex items-center gap-2 mt-2 sm:mt-0">
@@ -70,10 +69,10 @@
                             </a>
                         </div>
                     </div>
-                    <div class="mt-6 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+                    <div class="mt-6 sm:gap-4 sm:items-start justify-center sm:flex sm:flex-col sm:mt-8">
                         <a href="#"
                            title=""
-                           class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                           class="flex w-1/2 items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                            role="button">
                             <svg class="w-5 h-5 -ms-2 me-2"
                                  aria-hidden="true"
@@ -87,15 +86,30 @@
                             Add to favorites
                         </a>
                         <form action="{% url "cart:cart_add" product.id %}" method="post">
-                            {{ cart_product_form }}
+                            <div>
+                                {% for field in cart_product_form %}
+                                    <div class="mb-4 flex justify-between gap-6 w-full">
+                                        {% comment %} <label class="block mb-2 mr-8 text-sm font-medium text-gray-900 dark:text-white" for="{{ field.id_for_label }}">
+                                            {{ field.label }}
+                                            {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+                                        </label> {% endcomment %}
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}<p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ error }}</p>{% endfor %}
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
                             {% csrf_token %}
-                            <input type="submit"
-                                   value="Add to cart"
-                                   class="text-white mt-4 sm:mt-0 bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor">
+                            <button type="submit"
+                                    value="Add to cart"
+                                    class="w-full text-white mt-4 sm:mt-0 bg-[#1f4fd8] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor">
+                                Add to cart
+                            </button>
                         </form>
                     </div>
                     <hr class="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
-                    <p class="text-gray-100 dark:text-white">{{ product.description|linebreaks }}</p>
+                    <div class="text-gray-900 dark:text-white">{{ product.description|linebreaks }}</div>
                 </div>
             </div>
         </div>
