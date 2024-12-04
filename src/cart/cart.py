@@ -40,6 +40,8 @@ class Cart:
         for item in cart.values():
             item['price'] = Decimal(item['price'])
             item['total_price'] = item['price'] * item['quantity']
+            item['saving'] = Decimal(
+                item['discount']) * item['quantity']
             yield item
 
     def __len__(self):
@@ -59,7 +61,8 @@ class Cart:
         if product_id not in self.cart:
             self.cart[product_id] = {
                 'quantity': 0,
-                'price': str(product.price)
+                'price': str(product.price),
+                'discount': str(product.original_price - product.price)
             }
         if override_quantity:
             self.cart[product_id]['quantity'] = quantity
@@ -86,6 +89,13 @@ class Cart:
             Decimal(item['price']) * item['quantity']
             for item in self.cart.values()
         )
+
+    # def get_total_price_before_discount(self):
+
+    def get_total_discount(self):
+        """Calculates the total discount of the items in the cart"""
+        return sum(
+            Decimal(item['saving']) for item in self.__iter__())
 
     def clear(self):
         """Clears the cart"""

@@ -247,13 +247,13 @@
                                 <dl class="flex items-center justify-between gap-4">
                                     <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Original price</dt>
                                     <dd class="text-base font-medium text-gray-900 dark:text-white">
-                                        ${{ cart.get_total_price|floatformat:2 }}
+                                        ${{ cart.get_total_price|add:cart.get_total_discount|floatformat:2 }}
                                     </dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4">
-                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Savings</dt>
+                                    <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Discount</dt>
                                     <dd class="text-base font-medium text-green-600">
-                                        -${{ cart.get_discount|floatformat:2 }}
+                                        -${{ cart.get_total_discount|floatformat:2 }}
                                     </dd>
                                 </dl>
                                 <dl class="flex items-center justify-between gap-4">
@@ -268,6 +268,14 @@
                                         $0
                                     </dd>
                                 </dl>
+                                {% if cart.get_discount > 0 %}
+                                    <dl class="flex items-center justify-between gap-4">
+                                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400">Promo Code</dt>
+                                        <dd class="text-base font-medium text-green-600">
+                                            -${{ cart.get_discount|floatformat:2 }}
+                                        </dd>
+                                    </dl>
+                                {% endif %}
                             </div>
                             <dl class="flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700">
                                 <dt class="text-base font-bold text-gray-900 dark:text-white">Total</dt>
