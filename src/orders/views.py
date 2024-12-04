@@ -103,3 +103,10 @@ def order_cancel(request, order_id):
         messages.success(request, "Order canceled successfully")
 
     return redirect('orders:order_list')
+
+
+def order_detail(request, order_id):
+    """View a single order's details"""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    return render(request, 'orders/order/detail.html', {'order': order})
