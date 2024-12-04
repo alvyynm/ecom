@@ -110,3 +110,16 @@ def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
 
     return render(request, 'orders/order/detail.html', {'order': order})
+
+
+def print_order(request, order_id):
+    """Let a user generate pdf invoice for a given order"""
+    order = get_object_or_404(Order, id=order_id)
+    html = render_to_string('orders/order/pdf.html', {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    weasyprint.HTML(string=html).write_pdf(
+        response,
+        stylesheets=[weasyprint.CSS(finders.find('css/pdf.css'))],
+    )
+    return response
