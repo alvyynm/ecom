@@ -74,7 +74,14 @@ class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['gender', 'phone', 'date_of_birth',
-                  'home_address', 'delivery_address']
+                  'home_address', 'delivery_address', 'postal_code', 'city']
+
+    postal_code = forms.CharField(required=True)
+    city = forms.CharField(required=True)
+    home_address = forms.CharField(required=True)
+    phone = forms.CharField(required=True)
+    date_of_birth = forms.DateField(required=True)
+    delivery_address = forms.CharField(required=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

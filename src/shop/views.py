@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import Category, Product
+from .models import Category, Product, Tag
 from cart.forms import CartAddProductForm
 from .recommender import Recommender
 
@@ -9,7 +9,6 @@ from .recommender import Recommender
 
 def product_list(request, category_slug=None):
     category = None
-    categories = Category.objects.all()
     products = Product.objects.filter(available=True)
 
     if category_slug:
@@ -21,7 +20,6 @@ def product_list(request, category_slug=None):
                   'shop/product/list.html',
                   {
                       'category': category,
-                      'categories': categories,
                       'products': products
                   })
 
@@ -38,3 +36,34 @@ def product_detail(request, id, slug):
     return render(request, 'shop/product/detail.html',
                   {'product': product, 'cart_product_form': cart_product_form,
                    'recommended_products': recommended_products})
+
+
+def gift_ideas(request):
+    gift_query = Tag.objects.get(name='gift ideas')
+    for_her_query = Tag.objects.get(name='For Her')
+    for_him_query = Tag.objects.get(name='For Him')
+    under_50_query = Tag.objects.get(name='Under 50')
+    gifts = gift_query.products.filter(available=True)
+    gifts_for_her = for_her_query.products.filter(available=True)
+    gifts_for_him = for_him_query.products.filter(available=True)
+    gifts_under_50 = under_50_query.products.filter(available=True)
+
+    return render(request, 'shop/product/gift_ideas.html', {
+        'gifts': gifts,
+        'gifts_for_her': gifts_for_her,
+        'gifts_for_him': gifts_for_him,
+        'gifts_under_50': gifts_under_50
+    })
+
+
+def todays_deals(request):
+    """View for displaying Today's Deals"""
+    todays_deals_query = Tag.objects.get(slug='todays-deals')
+    under_50_query = Tag.objects.get(slug='under-50')
+    deals_under_50 = under_50_query.products.filter(available=True)
+    todays_deals = todays_deals_query.products.filter(available=True)
+
+    return render(request, 'shop/product/deals.html', {
+        'deals': todays_deals,
+        'under_50': deals_under_50
+    })
