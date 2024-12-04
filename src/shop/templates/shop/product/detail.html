@@ -77,6 +77,11 @@
                             </a>
                         </div>
                     </div>
+                    <div>
+                        {% if product.quantity == 0 %}
+                            <span class="rounded bg-[#fb9678] px-2.5 py-0.5 mt-4 text-xs font-medium text-white">Out of stock</span>
+                        {% endif %}
+                    </div>
                     <div class="mt-6 sm:gap-4 sm:items-start justify-center sm:flex sm:flex-col sm:mt-8">
                         <a href="#"
                            title=""
@@ -107,11 +112,15 @@
                                         {% endif %}
                                     </div>
                                 {% endfor %}
+                                {% if product.quantity == 0 %}
+                                    <p class="text-[#f04e45] mb-4">Item is out of stock. Check in soon for new stock</p>
+                                {% endif %}
                             </div>
                             {% csrf_token %}
                             <button type="submit"
+                                    {% if product.quantity == 0 %}disabled{% endif %}
                                     value="Add to cart"
-                                    class="w-full text-white mt-4 sm:mt-0 bg-[#1f4fd8] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor">
+                                    class="w-full text-white mt-4 sm:mt-0 bg-[#1f4fd8] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor {% if product.quantity == 0 %}bg-[#97b7f5]{% endif %}">
                                 Add to cart
                             </button>
                         </form>
