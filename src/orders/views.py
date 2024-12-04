@@ -18,21 +18,28 @@ def order_create(request):
     # obtain the current cart from the session
     cart = Cart(request)
 
-    if request.method == 'POST':
-        form = OrderCreateForm(request.POST)
+    if request.user.is_authenticated:
+        # if the user is authenticated
+        # no form to create an order is displayed
+        order_data = {
+            'first_name': request.user.first_name,
+            'last_name': request.user.last_name,
+            'email': request.user.email,
+            'address': request.user.profile.delivery_address,
+            'postal_code': request.user.profile.postal_code,
+            'city': request.user.profile.city,
+            'user': request.user
+        }
 
-        if form.is_valid():
-            # create a new order instance and don't save it
-            order = form.save(commit=False)
-
+        if request.method == 'POST':
             if cart.coupon:
-                order.coupon = cart.coupon
-                order.discount = cart.coupon.discount
-            # if the user is logged in, assign the user to the order
-            if request.user.is_authenticated:
-                order.user = request.user
-            # save the order
-            order.save()
+                order_data.coupon = cart.coupon
+                order_data.discount = cart.coupon.discount
+
+            # print(order_data)
+            # create a new order directly with the order data
+            order = Order.objects.create(**order_data)
+
             for item in cart:
                 # create a new order item for each cart item
                 OrderItem.objects.create(
@@ -45,18 +52,54 @@ def order_create(request):
             cart.clear()
 
             # launch asychronous created_order task
-            order_created.delay(order.id)
+            # order_created.delay(order.id)
             # add order id to session
             request.session['order_id'] = order.id
+            messages.success(
+                request, 'Order has been placed, continue to payment page.')
             # redirect to payment page
             return redirect('payments:process')
+            # if the form is invalid
+        return render(request, 'orders/order/create.html', {'cart': cart})
     else:
-        form = OrderCreateForm()
+        # if the user is not logged in
+        if request.method == 'POST':
+            form = OrderCreateForm(request.POST)
 
-    return render(request,
-                  'orders/order/create.html', {
-                      'cart': cart, 'form': form
-                  })
+            if form.is_valid():
+                # create a new order instance and don't save it
+                order = form.save(commit=False)
+
+                if cart.coupon:
+                    order.coupon = cart.coupon
+                    order.discount = cart.coupon.discount
+
+                # save the order
+                order.save()
+                for item in cart:
+                    # create a new order item for each cart item
+                    OrderItem.objects.create(
+                        order=order,
+                        product=item['product'],
+                        price=item['price'],
+                        quantity=item['quantity'],
+                    )
+                # clear the cart after order is created
+                cart.clear()
+
+                # launch asychronous created_order task
+                # order_created.delay(order.id)
+                # add order id to session
+                request.session['order_id'] = order.id
+                # redirect to payment page
+                return redirect('payments:process')
+        else:
+            form = OrderCreateForm()
+
+        return render(request,
+                      'orders/order/create.html', {
+                          'cart': cart, 'form': form
+                      })
 
 
 @staff_member_required
