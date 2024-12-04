@@ -50,6 +50,7 @@ class Product(models.Model):
         blank=True
     )
     description = models.TextField(blank=True)
+    quantity = models.PositiveIntegerField(default=30)
     original_price = models.DecimalField(
         max_digits=10, decimal_places=2, null=True, blank=True)
     discount_percentage = models.FloatField(default=0.0)
