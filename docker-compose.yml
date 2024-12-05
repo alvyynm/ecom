@@ -20,7 +20,7 @@ services:
       - rabbitmq
 
   db:
-    image: postgres:latest
+    image: postgres:17.2-alpine3.20
     env_file:
       - .env # load the environment variables from .env
     restart: always
@@ -34,7 +34,7 @@ services:
       - app_network
 
   redis:
-    image: redis:7.2.4
+    image: redis:7.2.6-alpine
     restart: always
     volumes:
       - ./data/redis:/data

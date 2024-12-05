@@ -14,7 +14,7 @@
                     <a href="{{ product.category.get_absolute_url }}" class="text-[#6b62ff]">{{ product.category }}</a>
                     {% if product.discount_percentage > 0 %}
                         <div class="relative">
-                            <span class="relative mt-3 text-xl font-extrabold line-through text-[#72757b] sm:text-3xl dark:text-[#72757b]">
+                            <span class="relative mt-3 text-lg font-extrabold line-through text-[#72757b] sm:text-2xl dark:text-[#72757b]">
                                 ${{ product.original_price }}
                             </span>
                             <span class="relative ms-1 top-[-1.5em] rounded bg-[#fbf3b2] px-2.5 py-0.5 text-xs font-medium text-[#614b00]">-{{ product.discount_percentage|floatformat:0 }}%</span>
@@ -77,6 +77,11 @@
                             </a>
                         </div>
                     </div>
+                    <div>
+                        {% if product.quantity == 0 %}
+                            <span class="rounded bg-[#fb9678] px-2.5 py-0.5 mt-4 text-xs font-medium text-white">Out of stock</span>
+                        {% endif %}
+                    </div>
                     <div class="mt-6 sm:gap-4 sm:items-start justify-center sm:flex sm:flex-col sm:mt-8">
                         <a href="#"
                            title=""
@@ -107,11 +112,15 @@
                                         {% endif %}
                                     </div>
                                 {% endfor %}
+                                {% if product.quantity == 0 %}
+                                    <p class="text-[#f04e45] mb-4">Item is out of stock. Check in soon for new stock</p>
+                                {% endif %}
                             </div>
                             {% csrf_token %}
                             <button type="submit"
+                                    {% if product.quantity == 0 %}disabled{% endif %}
                                     value="Add to cart"
-                                    class="w-full text-white mt-4 sm:mt-0 bg-[#1f4fd8] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor">
+                                    class="w-full text-white mt-4 sm:mt-0 bg-[#1f4fd8] hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800 flex items-center justify-center cursor {% if product.quantity == 0 %}bg-[#97b7f5]{% endif %}">
                                 Add to cart
                             </button>
                         </form>

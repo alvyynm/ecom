@@ -95,10 +95,14 @@
                         <p class="text-center text-sm font-normal leading-none text-gray-500 dark:text-gray-400">No items in cart</p>
                     </div>
                 {% endif %}
-                <a href="{% url "cart:cart_detail" %}"
+                <a href="{% url "orders:order_create" %}"
                    title=""
                    class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-[#1f4fd8] dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                    role="button">Proceed to Checkout</a>
+                <a href="{% url "cart:cart_detail" %}"
+                   title=""
+                   class="mb-2 me-2 inline-flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-[#50a2ff] dark:hover:bg-[#1f4fd8] dark:focus:ring-primary-800"
+                   role="button">View Cart</a>
             </div>
             <!-- Dropdown menu -->
             <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
