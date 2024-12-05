@@ -39,6 +39,10 @@ docker run -it --rm --network some-network postgres:17.2-alpine3.20 psql -h some
    ```bash
    docker buildx create --name mybuilder --use
    ```
+   NB: You can remove the builder by running the following command:
+   ```bash
+   docker buildx rm mybuilder
+   ```
 3. Build and push the image:
    ```bash
    docker buildx build --platform linux/amd64,linux/arm64 -t [dockerhubusername]/[dockerhubimagename]:[tag] --push .
