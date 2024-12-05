@@ -64,8 +64,7 @@ services:
       - app_network
 
   celery_worker:
-    build:
-      context: .
+    image: rasterzoo/ecom:v0.0.4
     command: celery -A project worker --loglevel=info
     working_dir: /app/src # sets the working directory containing manage.py
     env_file:
