@@ -18,6 +18,9 @@ services:
       - db
       - redis
       - rabbitmq
+    environment:
+      - UWSGI_UID=33  # www-data uid
+      - UWSGI_GID=33  # www-data gid
 
   db:
     image: postgres:17.2-alpine3.20
