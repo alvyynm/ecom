@@ -41,6 +41,9 @@ RUN pip install -r requirements.txt
 # Copy the project
 COPY . .
 
+# Create directory for static files
+RUN mkdir -p /app/src/static
+
 # Create custom celery user to avoid using root user
 RUN adduser --disabled-password --gecos '' celeryuser
 
