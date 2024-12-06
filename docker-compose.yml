@@ -86,7 +86,7 @@ services:
       - /tmp:/tmp # share the /tmp directory for the socket
       - static_volume:/app/src/static # mount defined volume
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - app_network
 
