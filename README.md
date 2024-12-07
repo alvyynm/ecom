@@ -22,6 +22,7 @@
 - Payments with Stripe, with webhooks used to verify the payment status
 - Sending order and payment confirmation messages asynchronously with RabbitMQ and Celery. Celery is used as the task processor and RabbitMQ as the message broker.
 - Product recommendations for products frequently bought together. This is implemented using Redis.
+- Both logged in and anonymous (unauthenticated users) can place orders
 
 ## Tech Stack:
 - Django
