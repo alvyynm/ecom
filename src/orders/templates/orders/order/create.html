@@ -25,20 +25,29 @@
               novalidate>
             <div class="mx-auto max-w-3xl">
                 <h2 class="text-xl font-semibold text-gray-900 dark:text-white sm:text-2xl">Order summary</h2>
-                <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
-                    <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Billing & Delivery information</h4>
-                    <dl>
-                        <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
-                            Bonnie Green - +1 234 567 890, San Francisco, California, United States, 3454, Scott Street
-                        </dd>
-                    </dl>
-                    <button type="button"
-                            data-modal-target="billingInformationModal"
-                            data-modal-toggle="billingInformationModal"
-                            class="text-base font-medium text-[#1f4fd8]hover:underline dark:text-[#1f4fd8]">
-                        Edit
-                    </button>
-                </div>
+                {% if request.user.is_authenticated %}
+                    <div class="mt-6 space-y-4 border-b border-t border-gray-200 py-8 dark:border-gray-700 sm:mt-8">
+                        <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Billing & Delivery information</h4>
+                        <dl>
+                            <dd class="mt-1 text-base font-normal text-gray-500 dark:text-gray-400">
+                                {{ request.user.profile.delivery_address }}
+                            </dd>
+                        </dl>
+                        <a href="{% url 'update_user_details' %}">
+                            <button type="button"
+                                    {% comment %}
+                                    disabled
+                                    {% endcomment %}
+                                    {% comment %}
+                                    data-modal-target="billingInformationModal"
+                                    data-modal-toggle="billingInformationModal"
+                                    {% endcomment %}
+                                    class="text-base font-medium text-[#1f4fd8]hover:underline dark:text-[#1f4fd8]">
+                                Edit
+                            </button>
+                        </a>
+                    </div>
+                {% endif %}
                 <div class="mt-6 sm:mt-8">
                     <div class="relative overflow-x-auto border-b border-gray-200 dark:border-gray-800">
                         <table class="w-full text-left font-medium text-gray-900 dark:text-white md:table-fixed">
