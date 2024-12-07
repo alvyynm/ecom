@@ -12,6 +12,8 @@
   <img src="https://img.shields.io/badge/rabbitmq-%23FF6600.svg?&style=for-the-badge&logo=rabbitmq&logoColor=white">
   <img src="https://img.shields.io/badge/redis-%23DD0031.svg?&style=for-the-badge&logo=redis&logoColor=white">
   <img src="https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white">
+  <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white">
   </p>
 </p>
 
@@ -22,13 +24,19 @@
 - Payments with Stripe, with webhooks used to verify the payment status
 - Sending order and payment confirmation messages asynchronously with RabbitMQ and Celery. Celery is used as the task processor and RabbitMQ as the message broker.
 - Product recommendations for products frequently bought together. This is implemented using Redis.
+- Both logged in and anonymous (unauthenticated users) can place orders
+
+## Quick Project Demo
 
 ## Tech Stack:
 - Django
+- PostgreSQL database
 - Celery for processing tasks asynchronously
 - RabbitMQ as a message broker
 - Stripe for payment processing
 - Redis for product recommendations
+- Nginx as 1) a reverse proxy (sitting in front of your uWSGI application server) and 2) a static file server for serving static files directly instead of the slow Django server
+- Docker for containerization and Docker Compose to manage the multi-container setup
 
 ## How to run
 RabbitMQ locally
