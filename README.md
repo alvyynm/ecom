@@ -76,4 +76,4 @@ For production:
 ```bash
 docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
-NB: You need to specify `.env.dev` for development and `.env.prod` for production
+NB: You need to specify `.env.dev` for development and `.env.prod` for production at the root
