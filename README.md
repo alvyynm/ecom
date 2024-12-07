@@ -51,3 +51,14 @@ docker run -it --rm --network some-network postgres:17.2-alpine3.20 psql -h some
    ```bash
    docker buildx build --platform linux/amd64,linux/arm64 -t rasterzoo/ecom:v0.0.3 --push .
    ```
+
+## Running with split Docker Compose configuration files
+For development:
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+```
+For production:
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+NB: You need to specify `.env.dev` for development and `.env.prod` for production
