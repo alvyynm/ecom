@@ -39,19 +39,17 @@
 - Docker for containerization and Docker Compose to manage the multi-container setup
 
 ## How to run
-RabbitMQ locally
-```bash
-docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0.3-management-alpine
-```
-Redis locally
-```bash
-docker run -it --rm --name redis -p 6379:6379 redis:7.2.6-alpine
-```
 
-Postgres
+For development:
 ```bash
-docker run -it --rm --network some-network postgres:17.2-alpine3.20 psql -h some-postgres -U postgres
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 ```
+For production:
+```bash
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+NB: You need to specify `.env.dev` for development and `.env.prod` for production at the root
+
 
 ## Building a multi-architecture image
 1. Enable BuildKit:
@@ -74,14 +72,3 @@ docker run -it --rm --network some-network postgres:17.2-alpine3.20 psql -h some
    ```bash
    docker buildx build --platform linux/amd64,linux/arm64 -t rasterzoo/ecom:v0.0.3 --push .
    ```
-
-## Running with split Docker Compose configuration files
-For development:
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-```
-For production:
-```bash
-docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-```
-NB: You need to specify `.env.dev` for development and `.env.prod` for production at the root
