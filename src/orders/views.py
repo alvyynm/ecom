@@ -52,7 +52,7 @@ def order_create(request):
             cart.clear()
 
             # launch asychronous created_order task
-            # order_created.delay(order.id)
+            order_created.delay(order.id)
             # add order id to session
             request.session['order_id'] = order.id
             messages.success(
@@ -88,7 +88,7 @@ def order_create(request):
                 cart.clear()
 
                 # launch asychronous created_order task
-                # order_created.delay(order.id)
+                order_created.delay(order.id)
                 # add order id to session
                 request.session['order_id'] = order.id
                 # redirect to payment page
