@@ -16,6 +16,13 @@ def product_list(request, category_slug=None):
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
 
+    sort_by = request.GET.get('sort_by')
+    sorting_fields = ['price', '-price',
+                      '-created', '-discount_percentage']
+
+    if sort_by in sorting_fields:
+        products = products.order_by(sort_by)
+
     return render(request,
                   'shop/product/list.html',
                   {
