@@ -55,6 +55,13 @@ def gift_ideas(request):
     gifts_for_him = for_him_query.products.filter(available=True)
     gifts_under_50 = under_50_query.products.filter(available=True)
 
+    sort_by = request.GET.get('sort_by')
+    sorting_fields = ['price', '-price',
+                      '-created', '-discount_percentage']
+
+    if sort_by in sorting_fields:
+        gifts = gifts.order_by(sort_by)
+
     return render(request, 'shop/product/gift_ideas.html', {
         'gifts': gifts,
         'gifts_for_her': gifts_for_her,
@@ -69,6 +76,13 @@ def todays_deals(request):
     under_50_query = Tag.objects.get(slug='under-50')
     deals_under_50 = under_50_query.products.filter(available=True)
     todays_deals = todays_deals_query.products.filter(available=True)
+
+    sort_by = request.GET.get('sort_by')
+    sorting_fields = ['price', '-price',
+                      '-created', '-discount_percentage']
+
+    if sort_by in sorting_fields:
+        todays_deals = todays_deals.order_by(sort_by)
 
     return render(request, 'shop/product/deals.html', {
         'deals': todays_deals,
