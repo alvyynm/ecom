@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'authentication.middleware.OnboardingMiddleware',
+    'shop.middleware.HTMXMiddleware',
 ]
 
 ROOT_URLCONF = 'project.urls'
