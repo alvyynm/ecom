@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator
 
 from .models import Category, Product, Tag
 from cart.forms import CartAddProductForm
@@ -23,11 +24,25 @@ def product_list(request, category_slug=None):
     if sort_by in sorting_fields:
         products = products.order_by(sort_by)
 
+    # paginate products
+    page_number = request.GET.get('page', 1)
+    paginator = Paginator(products, 10)  # return 10 products per page
+    page_obj = paginator.get_page(page_number)
+
+    # if the request is from htmx, render the partial
+    if request.htmx:
+        return render(request, 'shop/product/partials/product_list.html', {
+            'products': page_obj.object_list,
+            'page_obj': page_obj
+        })
+
+    # render the full page for non-htmx requests
     return render(request,
                   'shop/product/list.html',
                   {
                       'category': category,
-                      'products': products
+                      'products': page_obj.object_list,
+                      'page_obj': page_obj
                   })
 
 
