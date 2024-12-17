@@ -1,0 +1,51 @@
+# Python bytecode and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+*.env
+
+# Django static and media files (they should be built and managed differently)
+staticfiles/
+media/
+src/static
+src/media
+
+# Logs
+*.log
+logs/
+
+# Local database files
+*.sqlite3
+db.sqlite3
+
+# Docker-related files
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Environment variables or secrets
+.env
+.env.sample
+.env.dev
+.env.prod
+
+# Node modules (if using npm or yarn for frontend dependencies)
+node_modules/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.iml
+
+# Git files
+.git
+.gitignore
+
+# Coverage reports
+htmlcov/
+.coverage

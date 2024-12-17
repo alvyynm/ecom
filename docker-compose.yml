@@ -27,9 +27,9 @@ services:
     image: postgres:17.2-alpine3.20
     # env_file:
       # - .env # load the environment variables from .env
-    restart: always
+    restart: unless-stopped
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     # environment:
       # - POSTGRES_DB=${POSTGRES_DB}
       # - POSTGRES_USER=${POSTGRES_USER}
@@ -97,3 +97,4 @@ networks:
 
 volumes:
  static_volume: # define the volume
+ postgres_data:
