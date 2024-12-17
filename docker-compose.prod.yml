@@ -28,6 +28,8 @@ services:
           memory: 2G
 
   redis:
+    expose:
+      - 6379
     env_file:
       - .env.prod
     environment:
