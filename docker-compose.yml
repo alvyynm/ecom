@@ -27,7 +27,7 @@ services:
     image: postgres:17.2-alpine3.20
     # env_file:
       # - .env # load the environment variables from .env
-    restart: always
+    restart: unless-stopped
     volumes:
       - postgres_data:/var/lib/postgresql/data
     # environment:
